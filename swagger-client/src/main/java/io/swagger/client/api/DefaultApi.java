@@ -13,6 +13,7 @@
 
 package io.swagger.client.api;
 
+import com.google.gson.reflect.TypeToken;
 import io.swagger.client.ApiCallback;
 import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
@@ -21,12 +22,7 @@ import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 import io.swagger.client.ProgressRequestBody;
 import io.swagger.client.ProgressResponseBody;
-
-import com.google.gson.reflect.TypeToken;
-
-import java.io.IOException;
-
-
+import io.swagger.client.URLBuilder;
 import io.swagger.client.model.AECompensationInfo;
 import io.swagger.client.model.AECompensationValue;
 import io.swagger.client.model.AELockInfo;
@@ -39,6 +35,7 @@ import io.swagger.client.model.Setting;
 import io.swagger.client.model.SettingInfo;
 import io.swagger.client.model.SettingValue;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,6 +47,18 @@ public class DefaultApi {
 
     public DefaultApi() {
         this(Configuration.getDefaultApiClient());
+    }
+
+    public DefaultApi(String host, int port) {
+        this();
+
+        String baseURL = new URLBuilder()
+                .scheme(ApiClient.URL_SCHEME)
+                .host(host)
+                .port(port)
+                .addPathSegment(ApiClient.APP_PATH)
+                .toString();
+        apiClient.setBasePath(baseURL);
     }
 
     public DefaultApi(ApiClient apiClient) {
@@ -1285,8 +1294,8 @@ public class DefaultApi {
      * @return SettingInfo
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public SettingInfo settingsSettingGet(String setting) throws ApiException {
-        ApiResponse<SettingInfo> resp = settingsSettingGetWithHttpInfo(setting);
+    public SettingInfo settingsSettingGet(Setting setting) throws ApiException {
+        ApiResponse<SettingInfo> resp = settingsSettingGetWithHttpInfo(setting.name());
         return resp.getData();
     }
 
@@ -1414,8 +1423,8 @@ public class DefaultApi {
      * @param body  (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public void settingsSettingPut(String setting, SettingValue body) throws ApiException {
-        settingsSettingPutWithHttpInfo(setting, body);
+    public void settingsSettingPut(Setting setting, SettingValue body) throws ApiException {
+        settingsSettingPutWithHttpInfo(setting.name(), body);
     }
 
     /**

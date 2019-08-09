@@ -32,7 +32,7 @@ import java.util.List;
  * SettingInfo
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-08-22T08:56:31.682Z")
-public class SettingInfo extends BaseSettingInfo {
+public class SettingInfo extends BaseSettingInfo<String> {
   @SerializedName("value")
   private String value = null;
 

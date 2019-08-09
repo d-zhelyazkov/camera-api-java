@@ -1,6 +1,6 @@
 # DefaultApi
 
-All URIs are relative to *http://localhost/camera*
+All URIs are relative to *http://<host>:<port>/camera*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

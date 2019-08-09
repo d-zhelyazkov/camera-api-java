@@ -13,17 +13,37 @@
 
 package io.swagger.client;
 
-import com.squareup.okhttp.*;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.Headers;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.MultipartBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 import com.squareup.okhttp.internal.http.HttpMethod;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor.Level;
+import io.swagger.annotations.SwaggerDefinition;
+import io.swagger.client.auth.ApiKeyAuth;
+import io.swagger.client.auth.Authentication;
+import io.swagger.client.auth.HttpBasicAuth;
+import io.swagger.client.auth.OAuth;
 import okio.BufferedSink;
 import okio.Okio;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
-import javax.net.ssl.*;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,20 +59,31 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.text.DateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import io.swagger.client.auth.Authentication;
-import io.swagger.client.auth.HttpBasicAuth;
-import io.swagger.client.auth.ApiKeyAuth;
-import io.swagger.client.auth.OAuth;
-
 public class ApiClient {
 
-    private String basePath = "http://localhost/camera";
+    public static final SwaggerDefinition.Scheme URL_SCHEME =
+            SwaggerDefinition.Scheme.HTTP;
+
+    public static final String APP_PATH = "/camera";
+
+    private String basePath = new URLBuilder()
+            .scheme(URL_SCHEME)
+            .host(URLBuilder.LOCALHOST)
+            .addPathSegment(APP_PATH)
+            .toString();
+
     private boolean debugging = false;
     private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
     private String tempFolderPath = null;
@@ -105,7 +136,7 @@ public class ApiClient {
     /**
      * Set base path
      *
-     * @param basePath Base path of the URL (e.g http://localhost/camera
+     * @param basePath Base path of the URL (e.g http://<host>:<port>/camera
      * @return An instance of OkHttpClient
      */
     public ApiClient setBasePath(String basePath) {

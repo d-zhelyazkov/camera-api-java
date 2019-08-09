@@ -15,20 +15,17 @@ package io.swagger.client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.google.gson.JsonElement;
 import io.gsonfire.GsonFireBuilder;
-import io.gsonfire.TypeSelector;
+import okio.ByteString;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
-
-import io.swagger.client.model.*;
-import okio.ByteString;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -38,7 +35,6 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Date;
 import java.util.Map;
-import java.util.HashMap;
 
 public class JSON {
     private Gson gson;
@@ -50,23 +46,7 @@ public class JSON {
     private ByteArrayAdapter byteArrayAdapter = new ByteArrayAdapter();
 
     public static GsonBuilder createGson() {
-        GsonFireBuilder fireBuilder = new GsonFireBuilder()
-          .registerTypeSelector(BaseSettingInfo.class, new TypeSelector() {
-            @Override
-            public Class getClassForElement(JsonElement readElement) {
-                Map classByDiscriminatorValue = new HashMap();
-                classByDiscriminatorValue.put("AECompensationInfo".toUpperCase(), AECompensationInfo.class);
-                classByDiscriminatorValue.put("AELockInfo".toUpperCase(), AELockInfo.class);
-                classByDiscriminatorValue.put("FocusModeInfo".toUpperCase(), FocusModeInfo.class);
-                classByDiscriminatorValue.put("ISOInfo".toUpperCase(), ISOInfo.class);
-                classByDiscriminatorValue.put("SettingInfo".toUpperCase(), SettingInfo.class);
-                classByDiscriminatorValue.put("BaseSettingInfo".toUpperCase(), BaseSettingInfo.class);
-                return getClassByDiscriminator(
-                                           classByDiscriminatorValue,
-                                           getDiscriminatorValue(readElement, ""));
-            }
-          })
-        ;
+        GsonFireBuilder fireBuilder = new GsonFireBuilder();
         GsonBuilder builder = fireBuilder.createGsonBuilder();
         return builder;
     }

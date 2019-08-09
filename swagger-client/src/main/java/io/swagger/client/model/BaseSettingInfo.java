@@ -13,6 +13,7 @@
 
 package io.swagger.client.model;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Arrays;
 import com.google.gson.TypeAdapter;
@@ -29,7 +30,7 @@ import java.io.IOException;
  * BaseSettingInfo
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-08-22T08:56:31.682Z")
-public class BaseSettingInfo {
+public abstract class BaseSettingInfo<T> {
   @SerializedName("setting")
   private Setting setting = null;
 
@@ -72,6 +73,9 @@ public class BaseSettingInfo {
     this.editable = editable;
   }
 
+  public abstract T getValue();
+
+  public abstract List<T> getValues();
 
   @Override
   public boolean equals(java.lang.Object o) {

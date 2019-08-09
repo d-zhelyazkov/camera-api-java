@@ -32,7 +32,7 @@ import java.util.List;
  * AELockInfo
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-08-22T08:56:31.682Z")
-public class AELockInfo extends BaseSettingInfo {
+public class AELockInfo extends BaseSettingInfo<Boolean> {
   @SerializedName("value")
   private Boolean value = null;
 
@@ -49,7 +49,7 @@ public class AELockInfo extends BaseSettingInfo {
    * @return value
   **/
   @ApiModelProperty(required = true, value = "")
-  public Boolean isValue() {
+  public Boolean getValue() {
     return value;
   }
 

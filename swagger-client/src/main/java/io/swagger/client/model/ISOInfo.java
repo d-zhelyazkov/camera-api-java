@@ -32,7 +32,7 @@ import java.util.List;
  * ISOInfo
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-08-22T08:56:31.682Z")
-public class ISOInfo extends BaseSettingInfo {
+public class ISOInfo extends BaseSettingInfo<Integer> {
   @SerializedName("value")
   private Integer value = null;
 

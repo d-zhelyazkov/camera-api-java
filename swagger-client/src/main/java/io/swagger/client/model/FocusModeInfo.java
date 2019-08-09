@@ -33,7 +33,7 @@ import java.util.List;
  * FocusModeInfo
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-08-22T08:56:31.682Z")
-public class FocusModeInfo extends BaseSettingInfo {
+public class FocusModeInfo extends BaseSettingInfo<FocusMode> {
   @SerializedName("value")
   private FocusMode value = null;
 

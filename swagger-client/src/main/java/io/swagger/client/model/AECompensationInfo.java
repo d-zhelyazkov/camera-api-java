@@ -13,34 +13,25 @@
 
 package io.swagger.client.model;
 
-import java.util.Objects;
-import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.client.model.BaseSettingInfo;
-import io.swagger.client.model.Setting;
-import java.io.IOException;
-import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * AECompensationInfo
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-08-22T08:56:31.682Z")
-public class AECompensationInfo extends BaseSettingInfo {
+public class AECompensationInfo extends BaseSettingInfo<Float> {
   @SerializedName("value")
-  private BigDecimal value = null;
+  private Float value = null;
 
   @SerializedName("values")
-  private List<BigDecimal> values = new ArrayList<BigDecimal>();
+  private List<Float> values = new ArrayList<Float>();
 
-  public AECompensationInfo value(BigDecimal value) {
+  public AECompensationInfo value(float value) {
     this.value = value;
     return this;
   }
@@ -50,20 +41,20 @@ public class AECompensationInfo extends BaseSettingInfo {
    * @return value
   **/
   @ApiModelProperty(required = true, value = "")
-  public BigDecimal getValue() {
+  public Float getValue() {
     return value;
   }
 
-  public void setValue(BigDecimal value) {
+  public void setValue(float value) {
     this.value = value;
   }
 
-  public AECompensationInfo values(List<BigDecimal> values) {
+  public AECompensationInfo values(List<Float> values) {
     this.values = values;
     return this;
   }
 
-  public AECompensationInfo addValuesItem(BigDecimal valuesItem) {
+  public AECompensationInfo addValuesItem(float valuesItem) {
     this.values.add(valuesItem);
     return this;
   }
@@ -73,11 +64,11 @@ public class AECompensationInfo extends BaseSettingInfo {
    * @return values
   **/
   @ApiModelProperty(required = true, value = "")
-  public List<BigDecimal> getValues() {
+  public List<Float> getValues() {
     return values;
   }
 
-  public void setValues(List<BigDecimal> values) {
+  public void setValues(List<Float> values) {
     this.values = values;
   }
 

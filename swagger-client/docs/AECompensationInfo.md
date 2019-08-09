@@ -4,7 +4,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**value** | [**BigDecimal**](BigDecimal.md) |  | 
+**value** | [**Float**](Float.md) |  | 
 **values** | [**List&lt;BigDecimal&gt;**](BigDecimal.md) |  | 
 
 

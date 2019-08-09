@@ -13,17 +13,10 @@
 
 package io.swagger.client.model;
 
-import java.util.Objects;
-import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
-import java.math.BigDecimal;
+
+import java.util.Objects;
 
 /**
  * AECompensationValue
@@ -31,9 +24,9 @@ import java.math.BigDecimal;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2019-08-22T08:56:31.682Z")
 public class AECompensationValue {
   @SerializedName("value")
-  private BigDecimal value = null;
+  private Float value = null;
 
-  public AECompensationValue value(BigDecimal value) {
+  public AECompensationValue value(float value) {
     this.value = value;
     return this;
   }
@@ -43,11 +36,11 @@ public class AECompensationValue {
    * @return value
   **/
   @ApiModelProperty(required = true, value = "")
-  public BigDecimal getValue() {
+  public float getValue() {
     return value;
   }
 
-  public void setValue(BigDecimal value) {
+  public void setValue(float value) {
     this.value = value;
   }
 
