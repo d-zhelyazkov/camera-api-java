@@ -18,6 +18,8 @@ import io.swagger.client.model.AECompensationInfo;
 import io.swagger.client.model.AECompensationValue;
 import io.swagger.client.model.AELockInfo;
 import io.swagger.client.model.AELockValue;
+import io.swagger.client.model.BaseSettingInfo;
+import io.swagger.client.model.FocusMode;
 import io.swagger.client.model.FocusModeInfo;
 import io.swagger.client.model.FocusModeValue;
 import io.swagger.client.model.ISOInfo;
@@ -25,21 +27,18 @@ import io.swagger.client.model.ISOValue;
 import io.swagger.client.model.Setting;
 import io.swagger.client.model.SettingInfo;
 import io.swagger.client.model.SettingValue;
+import org.junit.Assert;
 import org.junit.Test;
-import org.junit.Ignore;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * API tests for DefaultApi
  */
-@Ignore
 public class DefaultApiTest {
 
-    private final DefaultApi api = new DefaultApi();
+    private static final DefaultApi api =
+            new DefaultApi(change_me, 9001);
 
     
     /**
@@ -52,9 +51,11 @@ public class DefaultApiTest {
      */
     @Test
     public void imageGetTest() throws ApiException {
-        byte[] response = api.imageGet();
+        byte[] image = api.imageGet();
+        System.out.printf("Image size: %d B\n", image.length);
 
-        // TODO: test validations
+        Assert.assertNotNull(image);
+        Assert.assertTrue(image.length > 0);
     }
     
     /**
@@ -69,7 +70,8 @@ public class DefaultApiTest {
     public void settingsAECOMPENSATIONGetTest() throws ApiException {
         AECompensationInfo response = api.settingsAECOMPENSATIONGet();
 
-        // TODO: test validations
+        validateSettingInfo(Setting.AE_COMPENSATION, response);
+        Assert.assertTrue(response.getValues().contains(response.getValue()));
     }
     
     /**
@@ -82,10 +84,16 @@ public class DefaultApiTest {
      */
     @Test
     public void settingsAECOMPENSATIONPutTest() throws ApiException {
-        AECompensationValue body = null;
+        AECompensationInfo aeCompensationInfo = api.settingsAECOMPENSATIONGet();
+        List<Float> values = aeCompensationInfo.getValues();
+        Float newValue = values.get(0);
+
+        AECompensationValue body = new AECompensationValue()
+                .value(newValue);
         api.settingsAECOMPENSATIONPut(body);
 
-        // TODO: test validations
+        aeCompensationInfo = api.settingsAECOMPENSATIONGet();
+        Assert.assertEquals(newValue, aeCompensationInfo.getValue());
     }
     
     /**
@@ -100,7 +108,8 @@ public class DefaultApiTest {
     public void settingsAELOCKGetTest() throws ApiException {
         AELockInfo response = api.settingsAELOCKGet();
 
-        // TODO: test validations
+        validateSettingInfo(Setting.AE_LOCK, response);
+        validateSettingValue(response);
     }
     
     /**
@@ -113,10 +122,15 @@ public class DefaultApiTest {
      */
     @Test
     public void settingsAELOCKPutTest() throws ApiException {
-        AELockValue body = null;
+        AELockInfo aeLockInfo = api.settingsAELOCKGet();
+        boolean newValue = aeLockInfo.getValues().get(0);
+        AELockValue body = new AELockValue()
+                .value(newValue);
+
         api.settingsAELOCKPut(body);
 
-        // TODO: test validations
+        aeLockInfo = api.settingsAELOCKGet();
+        Assert.assertEquals(newValue, aeLockInfo.getValue());
     }
     
     /**
@@ -131,7 +145,8 @@ public class DefaultApiTest {
     public void settingsFOCUSMODEGetTest() throws ApiException {
         FocusModeInfo response = api.settingsFOCUSMODEGet();
 
-        // TODO: test validations
+        validateSettingInfo(Setting.FOCUS_MODE, response);
+        validateSettingValue(response);
     }
     
     /**
@@ -144,10 +159,15 @@ public class DefaultApiTest {
      */
     @Test
     public void settingsFOCUSMODEPutTest() throws ApiException {
-        FocusModeValue body = null;
+        FocusModeInfo focusModeInfo = api.settingsFOCUSMODEGet();
+        List<FocusMode> values = focusModeInfo.getValues();
+        FocusMode newValue = (values.contains(FocusMode.CONTINUOUS)) ? FocusMode.CONTINUOUS : values.get(0);
+        FocusModeValue body = new FocusModeValue()
+                .value(newValue);
         api.settingsFOCUSMODEPut(body);
 
-        // TODO: test validations
+        focusModeInfo = api.settingsFOCUSMODEGet();
+        Assert.assertEquals(newValue, focusModeInfo.getValue());
     }
     
     /**
@@ -160,9 +180,11 @@ public class DefaultApiTest {
      */
     @Test
     public void settingsGetTest() throws ApiException {
-        List<Setting> response = api.settingsGet();
+        List<Setting> settings = api.settingsGet();
+        System.out.println(settings);
 
-        // TODO: test validations
+        Assert.assertNotNull(settings);
+        Assert.assertTrue(settings.size() > 0);
     }
     
     /**
@@ -177,7 +199,12 @@ public class DefaultApiTest {
     public void settingsISOGetTest() throws ApiException {
         ISOInfo response = api.settingsISOGet();
 
-        // TODO: test validations
+        validateSettingInfo(Setting.ISO, response);
+
+        Integer value = response.getValue();
+        List<Integer> values = response.getValues();
+        Assert.assertTrue(values.get(0) <= value && value <= values.get(values.size() - 1));
+
     }
     
     /**
@@ -188,12 +215,13 @@ public class DefaultApiTest {
      * @throws ApiException
      *          if the Api call fails
      */
-    @Test
+    @Test(expected = ApiException.class)
     public void settingsISOPutTest() throws ApiException {
-        ISOValue body = null;
+        ISOInfo isoInfo = api.settingsISOGet();
+        int newValue = isoInfo.getValues().get(0);
+        ISOValue body = new ISOValue()
+                .value(newValue);
         api.settingsISOPut(body);
-
-        // TODO: test validations
     }
     
     /**
@@ -206,10 +234,12 @@ public class DefaultApiTest {
      */
     @Test
     public void settingsSettingGetTest() throws ApiException {
-        String setting = null;
-        SettingInfo response = api.settingsSettingGet(setting);
-
-        // TODO: test validations
+		
+        Setting setting = Setting.FOCUS_MODE;
+        SettingInfo settingInfo = api.settingsSettingGet(setting);
+        validateSettingInfo(setting, settingInfo);
+//        Assert.assertTrue(settingInfo.getValues().contains(settingInfo.getValue()));
+        validateSettingValue(settingInfo);
     }
     
     /**
@@ -222,11 +252,31 @@ public class DefaultApiTest {
      */
     @Test
     public void settingsSettingPutTest() throws ApiException {
-        String setting = null;
-        SettingValue body = null;
+        Setting setting = Setting.FOCUS_MODE;
+        SettingInfo settingInfo = api.settingsSettingGet(setting);
+        String newValue = settingInfo.getValues().get(0);
+        SettingValue body = new SettingValue()
+                .value(newValue);
         api.settingsSettingPut(setting, body);
 
-        // TODO: test validations
+        settingInfo = api.settingsSettingGet(setting);
+        Assert.assertEquals(newValue, settingInfo.getValue());
     }
-    
+
+    private void validateSettingInfo(Setting setting, BaseSettingInfo settingInfo) {
+        System.out.println(settingInfo);
+
+        Assert.assertNotNull(settingInfo);
+        Assert.assertEquals(setting, settingInfo.getSetting());
+
+        List values = settingInfo.getValues();
+        Assert.assertFalse(values.isEmpty());
+        Assert.assertFalse(values.contains(null));
+    }
+
+    private void validateSettingValue(BaseSettingInfo<?> settingInfo) {
+        List<?> values = settingInfo.getValues();
+        Assert.assertTrue(values.contains(settingInfo.getValue()));
+    }
+
 }
