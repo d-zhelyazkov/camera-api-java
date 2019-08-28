@@ -14,6 +14,8 @@ public class TestProperties {
 
     private static final String API_DEBUG_CONFIG = "apiDebug";
 
+    private static final String ISO_MAX_ERROR_CONFIG = "isoValueMaxError";
+
     private final Properties testProperties = new Properties();
 
     TestProperties() throws IOException {
@@ -38,5 +40,10 @@ public class TestProperties {
     boolean isApiDebugEnabled() {
         String apiDebugStr = testProperties.getProperty(API_DEBUG_CONFIG);
         return Boolean.parseBoolean(apiDebugStr);
+    }
+
+    public int getIsoValueMaxError() {
+        String isoMaxErrorStr = testProperties.getProperty(ISO_MAX_ERROR_CONFIG);
+        return Integer.parseInt(isoMaxErrorStr);
     }
 }

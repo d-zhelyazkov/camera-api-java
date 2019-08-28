@@ -34,4 +34,7 @@ public class TestFactory {
         return camera;
     }
 
+    public static TestProperties getTestProperties() {
+        return testProperties;
+    }
 }
