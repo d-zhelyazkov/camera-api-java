@@ -36,6 +36,7 @@ import io.swagger.client.model.SettingInfo;
 import io.swagger.client.model.SettingValue;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -138,6 +139,12 @@ public class DefaultApi {
      */
     public byte[] imageGet() throws ApiException {
         ApiResponse<byte[]> resp = imageGetWithHttpInfo();
+        return resp.getData();
+    }
+
+    public InputStream getImageStream() throws ApiException {
+        com.squareup.okhttp.Call call = imageGetValidateBeforeCall(null, null);
+        ApiResponse<InputStream> resp = apiClient.execute(call, InputStream.class);
         return resp.getData();
     }
 

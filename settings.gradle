@@ -1,3 +1,6 @@
 rootProject.name = "camera-api-java"
 
 include 'swagger-client'
+include 'api'
+findProject(':api')?.name = 'camera-api-java'
+

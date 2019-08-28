@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+    id 'maven'
+}
+
+group = 'com.xrc'
+version = '1.0.0'
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+ext {
+    utilsVersion = "1.0-SNAPSHOT"
+    junitVersion = "5.4.2"
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.artifactId = 'camera-api-java'
+    }
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    implementation project(':swagger-client')
+
+    implementation("com.xrc:java-utils:${utilsVersion}")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:${junitVersion}")
+}

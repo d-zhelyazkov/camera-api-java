@@ -928,7 +928,10 @@ public class ApiClient {
      *   fail to deserialize the response body
      * @return Type
      */
-    public <T> T handleResponse(Response response, Type returnType) throws ApiException {
+    @SuppressWarnings("unchecked")
+    public <T> T handleResponse(Response response, Type returnType) 
+            throws ApiException, IOException {
+
         if (response.isSuccessful()) {
             if (returnType == null || response.code() == 204) {
                 // returning null if the returnType is not defined,
@@ -941,6 +944,8 @@ public class ApiClient {
                     }
                 }
                 return null;
+            } else if (returnType == InputStream.class) {
+                return (T) response.body().byteStream();
             } else {
                 return deserialize(response, returnType);
             }
